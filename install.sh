@@ -1,28 +1,30 @@
 #!/bin/bash
+clear
+echo "=========================================="
+echo "    INSTALLATION DE MOBOX CUSTOM          "
+echo "    Base: Officielle | Mod: dzams353-web  "
+echo "=========================================="
 
-# 1. Préparation des dossiers et permissions
-echo "Configuration des permissions..."
-termux-setup-storage
-sleep 2
+# 1. Vérification des outils nécessaires
+echo "[1/4] Verification de Git..."
+pkg install git -y
 
-# 2. Mise à jour des dépôts pour la vitesse
-pkg update -y && pkg upgrade -y
-pkg install x11-repo -y
-pkg install termux-x11-nightly virglrenderer-android vulkan-loader-android -y
+# 2. Création de ton dossier personnalisé
+echo "[2/4] Preparation de l'espace..."
+mkdir -p $HOME/Mobox-custom
 
-# 3. Installation de la base Mobox WOW64
-echo "Installation du cœur de l'arme (Mobox WOW64)..."
-curl -s -o ~/install_mobox https://raw.githubusercontent.com/olegos2/mobox/main/install
-chmod +x ~/install_mobox
-# On simule le choix '2' pour forcer WOW64
-echo "2" | ./install_mobox
+# 3. Récupération de l'ancien code (Base de Mobox)
+echo "[3/4] Telechargement du coeur de Mobox..."
+# On clone la base officielle dans un dossier "core" chez toi
+git clone https://github.com/olegos2/mobox $HOME/Mobox-custom/core
 
-# 4. Forçage du bouton Start et de l'affichage
-echo "Configuration de l'affichage et du bureau..."
-export DISPLAY=:0
-export PULSE_SERVER=127.0.0.1
+# 4. Finalisation
+echo "[4/4] Configuration de ta version personnalisee..."
+echo "Structure creee dans : $HOME/Mobox-custom"
 
-# 5. Injection des réglages de puissance (Dynarec 4)
-# On modifie directement la config pour forcer la vitesse maximale
-sed -i 's/export DYNAREC_STRONG_MEM_ORDER=1/export DYNAREC_STRONG_MEM_ORDER=0/g' ~/.mobox/config
+echo "=========================================="
+echo "       TON NOUVEAU MOBOX EST PRET !       "
+echo "   Tape : cd Mobox-custom/core && ls      "
+echo "=========================================="
+
 
